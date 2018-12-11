@@ -20,7 +20,7 @@ def extract_text_by_page(pdf_path):
                                       caching=True,
                                       check_extractable=True):
             resource_manager = PDFResourceManager()
-            laparams =
+            # laparams =
             device = PDFPageAggregator(resource_manager)
             fake_file_handle = io.StringIO()
             converter = TextConverter(resource_manager, fake_file_handle)
