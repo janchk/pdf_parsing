@@ -8,7 +8,7 @@ def img_extract(pdf_path, page_num):
     page = pdfin.getPage(page_num)
     xObject = page['/Resources']['/XObject'].getObject()
 
-    imgs = []
+    imgs = {}
     for obj in xObject:
         if xObject[obj]['/Subtype'] == '/Image':
             size = (xObject[obj]['/Width'], xObject[obj]['/Height'])
@@ -20,11 +20,11 @@ def img_extract(pdf_path, page_num):
 
             if xObject[obj]['/Filter'] == '/FlateDecode':
                 img = Image.frombytes(mode, size, data)
-                imgs.append({str(obj).replace('/', ''): img})
+                imgs[str(obj).replace('/', '')] = img
             elif xObject[obj]['/Filter'] == '/DCTDecode':
-                imgs.append({obj: data})
+                imgs[obj] = data
             elif xObject[obj]['/Filter'] == '/JPXDecode':
-                imgs.append({obj: data})
+                imgs[obj] = data
     return imgs
 
 
