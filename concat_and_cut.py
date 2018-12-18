@@ -1,7 +1,9 @@
-import PIL
 from PIL import Image
 import numpy as np
 
+# TODO rewrite as class
+
+'''Find coefficient of resize between original and pdf version of image'''
 '''Calc pixel/meter ratios for every image '''
 
 
@@ -107,16 +109,12 @@ def cut_all(captions, img, cuts, rgb=True):
             bot_cut = top_cut + snd_cut * imgs_caps[img_cnt]['ratio']
             snd_cutted_img = cut_func(img, top_cut, bot_cut)
 
+            # the images already have same width so no resize will be applied, just concatenation
             cutted_img = rs_concat((fst_cutted_img, snd_cutted_img))
+            top_cut = bot_cut
             imgs.append(cutted_img)
 
     return imgs
-
-    ###
-
-    # img_borders =
-    # ratios = mesure_m(captions)
-    # for cut in cuts:
 
 
 def c_n_c(captions, imgs, capdescr):  # concatinate and cut then

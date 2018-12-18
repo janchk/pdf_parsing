@@ -1,6 +1,3 @@
-from binascii import b2a_hex
-from io import StringIO
-from pdfminer3.converter import TextConverter
 from pdfminer3.pdfinterp import PDFPageInterpreter
 from pdfminer3.pdfinterp import PDFResourceManager
 from pdfminer3.pdfpage import PDFPage
@@ -9,8 +6,6 @@ from pdfminer3.layout import LAParams
 from pdfminer3.pdfparser import PDFParser
 from pdfminer3.pdfdocument import PDFDocument
 from pdfminer3.layout import LTImage, LTFigure, LTTextBoxHorizontal
-import io
-import PIL.Image
 
 
 def captinons_handling(pdf_path):
