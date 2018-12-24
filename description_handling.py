@@ -22,9 +22,8 @@ def is_layer_cont(prev_l, curr_l):
         return False
 
 
-def find_cap_descr(start_mark='3334,40'):
-    fp = open('/home/jan/Documents/test/Еты-Пуровское/260по/ОПИСАНИЕ+ФОТО/Описание_260.pdf',
-              'rb')
+def find_cap_descr(start_mark, descrpath):
+    fp = open(descrpath, 'rb')
     parser = PDFParser(fp)
     document = PDFDocument(parser)
     rsrcmgr = PDFResourceManager()
@@ -66,7 +65,7 @@ def find_cap_descr(start_mark='3334,40'):
 
                                     if re.match(mask2, thing1.get_text()) and int(
                                             thing1.get_text().split("слой")[0]) - 1 == int(
-                                            doc_descr[-1:][0]['layer number']):
+                                        doc_descr[-1:][0]['layer number']):
 
                                         layer_description = max([item.get_text() for item in pdf_item if
                                                                  (item.y1 == thing1.y1 and isinstance(
@@ -86,4 +85,6 @@ def find_cap_descr(start_mark='3334,40'):
 
 
 if __name__ == '__main__':
-    find_cap_descr()
+    start_mark = '3334,40'
+    descrpath = '/home/jan/Documents/test/Еты-Пуровское/260по/ОПИСАНИЕ+ФОТО/Описание_260.pdf'
+    find_cap_descr(start_mark, descrpath)

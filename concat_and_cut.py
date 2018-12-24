@@ -50,8 +50,15 @@ def concat_all(imgs, captions):
 
 def rs_concat(imgs):
     min_shape = sorted([(np.sum(i.size), i.size) for i in imgs])[0][1]
-    imgs_comb = np.vstack((np.asarray(i.resize((min_shape[0], i.height))) for i in imgs))
-    return Image.fromarray(imgs_comb)
+    try:
+        imgs_comb = np.vstack((np.asarray(i.resize((min_shape[0], i.height))) for i in imgs))
+    except ValueError:
+        imgs_comb = np.asarray(imgs[1])
+    try:
+        return Image.fromarray(imgs_comb)
+    except TypeError:
+        print(type(imgs_comb))
+        pass
 
 
 '''Just cut this damn image'''
