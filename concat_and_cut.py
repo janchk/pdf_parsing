@@ -57,8 +57,9 @@ def rs_concat(imgs):
     try:
         return Image.fromarray(imgs_comb)
     except TypeError:
-        print(type(imgs_comb))
-        pass
+        return Image.fromarray(np.asarray(imgs[0]))
+        # print(type(imgs_comb))
+        # pass
 
 
 '''Just cut this damn image'''

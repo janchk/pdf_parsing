@@ -5,6 +5,13 @@ import os
 from concat_and_cut import concat_all, c_n_c
 
 
+def spec_file():
+    desc_file = '/home/jan/Documents/test/Еты-Пуровское/266по/ОПИСАНИЕ+ФОТО/Описание_керна_266РО.pdf'
+    pdf_file = '/home/jan/Documents/test/Еты-Пуровское/266по/ОПИСАНИЕ+ФОТО/Рис._2.2.11-16_266РО.pdf'
+    dir = '266по'
+    files_proc(desc_file, pdf_file, dir)
+
+
 def main():
     for dir in os.listdir('/home/jan/Documents/test/Еты-Пуровское'):
         target_dir = '/home/jan/Documents/test/Еты-Пуровское/' + dir + '/ОПИСАНИЕ+ФОТО/'
@@ -14,6 +21,7 @@ def main():
                          f.find("Описание") != -1 and f.endswith('.pdf')]
             try:
                 for pdf in pdfs:
+                    print('processing file %s' % pdf)
                     files_proc(desc_file[0], pdf, dir)
             except IndexError:
                 continue
@@ -54,4 +62,5 @@ def files_proc(descr_pdf, imgs_pdf, dir_n):
 
 
 if __name__ == "__main__":
+    # spec_file()
     main()

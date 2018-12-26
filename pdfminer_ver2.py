@@ -18,34 +18,44 @@ def captinons_handling(pdf_path):
     interpreter = PDFPageInterpreter(rsrcmgr, device)
 
     caps = []
+    desc_p = None
 
     for i, page in enumerate(PDFPage.create_pages(document)):
+        # This is aux variable for detecting repeating core captions.
+        # Assuming the uv images will be annotated exactly same as rgb images.
+        aux_annot = []
         uv = False
         interpreter.process_page(page)
         pdf_item = device.get_result()
-        for thing in pdf_item:
-            if isinstance(thing, LTTextBoxHorizontal):
-                p_descr = thing.get_text().find('отбора керна до привязки:')
+        for item in pdf_item:
+            if isinstance(item, LTTextBoxHorizontal):
+                p_descr = item.get_text().find('отбора керна до привязки:')
                 if p_descr != -1:
-                    desc_p = thing.get_text()[p_descr+26: p_descr+33]  # another type of hardcoding
+                    desc_p = item.get_text()[p_descr + 26: p_descr + 33]  # another type of hardcoding
                     # print(desc_p)
-            if isinstance(thing, LTTextBoxHorizontal):
-                if thing.get_text().find('в ультрафиолетовом свете') != -1:
+            if isinstance(item, LTTextBoxHorizontal):
+                if item.get_text().find('в ультрафиолетовом свете') != -1:
                     uv = True
                 else:
                     uv = False
-            if isinstance(thing, LTImage):
+            if isinstance(item, LTImage):
                 print('img')
                 # save_image(thing)
-            if isinstance(thing, LTFigure):
+            if isinstance(item, LTFigure):
                 # print('figure')
 
-                captions = find_captions_for_img(thing, pdf_item)
+                captions = find_captions_for_img(item, pdf_item)
                 if captions:
                     im_name, top_cap, bot_cap, sz, src_sz, pred = captions
+                    if top_cap not in aux_annot:
+                        aux_annot.append(top_cap)
+                    else:
+                        uv = True
                     caps.append({"page": i, "image_name": im_name, "top_caption": top_cap, "bottom_caption": bot_cap,
                                  "in_pdf_size": sz, "src_size": src_sz, "is_ruler": pred, "is_uv": uv})
     # caps.append({'kern_start': desc_p})
+    if not desc_p:
+        desc_p = [cap for cap in caps if cap['is_ruler'] == False][0]['top_caption'][0]
     return caps, desc_p
     # print(i, captions)
 
