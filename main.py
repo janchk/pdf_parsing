@@ -45,7 +45,7 @@ def files_proc(descr_pdf, imgs_pdf, dir_n):
             f = open('exported/%s/descriptions/%s_layer_%i.txt' % (dir_n, pdf_name, i), 'w+')
             f.write(cap_descipt[i]['layer description'])
             img.save('exported/%s/images/%s_layer_%i.png' % (dir_n, pdf_name, i))
-    except AttributeError :
+    except AttributeError:
         print('bad save for %s' % pdf_name)
 
     print(captions)
